@@ -18,6 +18,11 @@
 
 class String
   def caesar(shift)
+    temp = self.split('').map { |letter| letter.ord }
+    shifted = temp.map do |asc|
+      asc + shift > 122 ? 97 + (shift - (122 - asc + 1)) : asc + shift
+    end 
+    solution = shifted.map { |new| new.chr }.join('')
   end
 end
 
@@ -36,6 +41,10 @@ end
 
 class Hash
   def difference(other_hash)
+    solution = {}
+    self.each { |k1, v1| solution[k1] = v1 if not other_hash.key?(k1) }
+    other_hash.each { |k1, v1| solution[k1] = v1 if not self.key?(k1) }
+    solution
   end
 end
 
@@ -98,6 +107,16 @@ end
 
 class Fixnum
   def stringify(base)
+    chars = { 0 => '0', 1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6', 7 => '7', 8 => '8', 9 => '9',
+              10 => 'a', 11 => 'b', 12 => 'c', 13 => 'd', 14 => 'e', 15 => 'f' }
+    result = ""
+    pow = 0
+    until (self / (base ** pow)) == 0 do
+      temp = (self / (base ** pow)) % base
+      result = chars[temp] + result
+      pow += 1
+    end
+    result
   end
 end
 

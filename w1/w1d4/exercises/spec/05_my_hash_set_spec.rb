@@ -50,7 +50,6 @@ describe MyHashSet do
       set1.insert("Mark Hamill")
       set1.insert("Harrison Ford")
       set1.insert("Anthony Daniels")
-
       set2.insert("Ewan McGregor")
       set2.insert("Natalie Portman")
       set2.insert("Anthony Daniels")
@@ -98,6 +97,40 @@ describe MyHashSet do
           "Mark Hamill",
           "Harrison Ford"
         )
+      end
+    end
+    
+    describe "#symmetric_difference" do
+      it "returns a new set" do
+        expect(set1.symmetric_difference(set2)).to be_a(MyHashSet)
+      end
+
+      it "returns a set containing elements in either of the sets, but not both" do
+        els = set1.symmetric_difference(set2).to_a
+
+        expect(els).to contain_exactly(
+          "Mark Hamill",
+          "Harrison Ford",
+          "Ewan McGregor",
+          "Natalie Portman"
+        )
+      end
+    end
+    
+    describe "#==" do
+      it "returns false for non matching sets" do
+        result = (set1 == set2)
+        expect(result).to be(false)
+      end
+        
+      it "returns true for matching sets" do
+        set1.insert("Ewan McGregor")
+        set1.insert("Natalie Portman")
+        set2.insert("Mark Hamill")
+        set2.insert("Harrison Ford")
+        
+        result = (set1 == set2)
+        expect(result).to be(true)
       end
     end
   end

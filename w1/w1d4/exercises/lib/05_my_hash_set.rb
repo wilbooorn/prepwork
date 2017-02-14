@@ -29,6 +29,60 @@
 # all the items of `set1` that aren't in `set2`.
 
 class MyHashSet
+  attr_accessor :store
+  
+  def initialize(store = {})
+    @store = store
+  end
+  
+  def insert(el)
+    @store[el] = true
+  end
+  
+  def include?(el)
+    @store.key?(el)
+  end
+  
+  def delete(el)
+    @store.delete(el)
+  end
+  
+  def to_a
+    @store.keys
+  end
+  
+  def union(set2)
+    MyHashSet.new(@store.merge(set2.store))
+  end
+  
+  def intersect(set2)
+    newSet2 = {}
+    @store.each { |k, v| newSet2[k] = v if set2.store.key?(k) }
+    MyHashSet.new(newSet2)
+  end
+  
+  def minus(set2)
+    newSet2 = {}
+    @store.each { |k, v| newSet2[k] = v if not set2.store.key?(k) }
+    MyHashSet.new(newSet2)
+  end
+  
+  def symmetric_difference(set2)
+    newSet = {}
+    newSet2 = {}
+    @store.each { |k, v| newSet[k] = v if not set2.store.key?(k) }
+    set2.store.each { |k, v| newSet2[k] = v if not @store.key?(k) }
+    MyHashSet.new(newSet.merge(newSet2))
+  end
+  
+  def ==(object)
+    return false if not object.is_a?(MyHashSet)
+    return false if @store.size != object.store.size
+    @store.each { |k, v| return false if @store[k] != object.store[k] }
+    true
+  end
+  
+    
 end
 
 # Bonus

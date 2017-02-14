@@ -5,6 +5,9 @@
 
 class Array
   def sum
+    x = 0
+    self.each { |item| x += item }
+    x
   end
 end
 
@@ -16,9 +19,13 @@ end
 
 class Array
   def square!
+    self.each_with_index {|val, index| self[index] = val**2 }
   end
 
   def square
+    answer = []
+    self.each { |item| answer << item**2 }
+    answer
   end
 end
 
@@ -36,6 +43,11 @@ end
 
 class Array
   def my_uniq
+    solution = []
+    temp = Hash.new { 0 }
+    self.each { |item| temp[item] += 1 }
+    temp.each { |k, v| solution << k }
+    solution
   end
 end
 
@@ -57,6 +69,15 @@ end
 
 class Array
   def two_sum
+    solution = []
+    self.each_with_index do |v1, i1|
+      self.each_with_index do |v2, i2|
+        temp = []
+        temp << i1 << i2 if self[i1] + self[i2] == 0 and i1 != i2
+        solution << temp if temp.any? and not solution.include? temp.sort and temp
+      end
+    end
+    solution
   end
 end
 
@@ -69,6 +90,14 @@ end
 
 class Array
   def median
+    return if not self.any?
+    sorted = self.sort
+    self.size % 2 == 0 ? even = true : even = false
+    if not even
+      sorted[(self.length) / 2]
+    else
+      (sorted[(self.length) / 2] + sorted[(self.length / 2) - 1]) / 2.0
+    end
   end
 end
 
@@ -121,6 +150,14 @@ end
 
 class Array
   def my_transpose
+    solution = []
+    self.size.times {solution << [] }
+    self.each_with_index do |row, i1|
+      self.each_with_index do |column, i2|
+        solution[i1][i2] = self[i2][i1]
+      end
+    end
+    solution
   end
 end
 

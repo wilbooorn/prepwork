@@ -4,6 +4,11 @@
 # factors of a given number.
 
 def factors(num)
+  facts = []
+  (1..num).each do |i|
+    facts << i if num % i == 0
+  end
+  facts
 end
 
 # ### Bubble Sort
@@ -47,9 +52,40 @@ end
 
 class Array
   def bubble_sort!
+    sorted = false
+    until sorted
+      sorted = true
+      each_index do |i|
+        next if i + 1 == self.length
+        j = i + 1
+        if self[i] > self[j]
+          self[i],self[j] = self[j],self[i]
+          sorted = false
+        end
+      end
+    end
+    self
   end
 
+  def bubble_sort!(&prc)
+    prc ||= Proc.new { |x, y| x <=> y }
+    sorted = false
+    until sorted
+      sorted = true
+      each_index do |i|
+        next if i + 1 == self.length
+        j = i + 1
+        if prc.call(self[i], self[j]) == 1
+          sorted = false
+          self[i], self[j] = self[j], self[i]
+        end
+      end
+    end
+    self
+  end
+  
   def bubble_sort(&prc)
+    self.dup.bubble_sort!(&prc)
   end
 end
 
@@ -67,9 +103,22 @@ end
 # words).
 
 def substrings(string)
+  solution = []
+  chars = string.split('')
+  len = chars.size
+  (0..len).each do |x|
+    (1..len).each do |y|
+      solution << chars[x..y].join if not solution.include?(chars[x..y].join)
+    end
+  end
+  solution
 end
 
 def subwords(word, dictionary)
+  subs = substrings(word)
+  subs.select do |sub|
+    dictionary.include?(sub)
+  end
 end
 
 # ### Doubler
@@ -77,6 +126,9 @@ end
 # array with the original elements multiplied by two.
 
 def doubler(array)
+  solution = []
+  array.each { |num| solution << num * 2 }
+  solution
 end
 
 # ### My Each
@@ -104,6 +156,10 @@ end
 
 class Array
   def my_each(&prc)
+    self.length.times do |i|
+      prc.call self[i]
+    end
+    self
   end
 end
 
@@ -122,12 +178,28 @@ end
 
 class Array
   def my_map(&prc)
+    solution = []
+    self.my_each do |item|
+      x = prc.call item
+      solution << x
+    end
+    solution
   end
 
   def my_select(&prc)
+    solution = []
+    self.length.times do |index|
+      x = prc.call self[index]
+      solution << self[index] if x
+    end
+    solution
   end
 
   def my_inject(&blk)
+    solution = self.first
+    self.drop(1).my_each { |i| solution = blk.call solution, i }
+    solution
+    
   end
 end
 
@@ -141,4 +213,8 @@ end
 # ```
 
 def concatenate(strings)
+  answer = ""
+  answer << strings.first
+  strings.inject { |item1, item2| answer << item2 }
+  #answer
 end
