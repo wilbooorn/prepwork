@@ -40,5 +40,57 @@
 # methods named above.
 
 class TowersOfHanoi
+  attr_reader :towers
+  
+  def initialize
+    @towers = [[3, 2, 1], [], []]
+    @moves = 0
+  end
+  
+  def play 
+    until won?
+      self.render
+      print "\n"
+      puts "Total moves: #{@moves}"
+      puts "Select a tower to move from: "
+      from = gets.chomp.to_i
+      puts "Select a tower to move to: "
+      to = gets.chomp.to_i
+      unless valid_move?(from, to)
+        puts "That's not a valid move"
+        next
+      end
+      move(from, to)
+      @moves += 1
+    end
+      
+  end
+  
+  def render
+    @towers.each_index do |tower_index|
+      p @towers[tower_index]
+    end
+  end
+  
+  def won?
+    return false unless towers[1].size == 3 or towers[2].size == 3
+    p "You win!!"
+    true
+  end
+  
+  def valid_move?(from_block, to_block)
+    return false if not @towers[from_block].any?
+    return true if not @towers[to_block].any?
+    return true if @towers[from_block][-1] < @towers[to_block][-1]
+    false
+  end
+  
+  def move(from_block, to_block)
+    @towers[to_block].push(@towers[from_block].pop)
+  end
+  
 
 end
+
+# game = TowersOfHanoi.new
+# game.play
