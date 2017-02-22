@@ -41,7 +41,7 @@ class XmlDocument
         str << "</#{ method_name }>\n"
       else
         if options
-          str = "<#{ method_name } #{ options.keys[0].to_s }=\"#{ options.values[0].to_s}\"/\n>"
+          str = "<#{ method_name } #{ options.keys[0].to_s }=\"#{ options.values[0].to_s}\"/>\n"
         else
           str = "<#{ method_name }/\n>"
         end
@@ -59,17 +59,18 @@ class XmlDocument
         end
       end
     end
-    # if @indents
-    #   arr = str.split("\n").map { |elem| elem.concat("\n") }
-    #   p arr
-    #   i = 0
-    #   str = arr.map do |item|
-    #     ("  " * i) << item
-    #     i < 2 ? i += 1 : i -= 1
-    #   end.join('')
-    # end
+    
+    if @indents
+      str = indent(str)
+    end
     str
   end
   
+  def indent(str)
+    result = ""
+    arr = str.split("\n").map { |elem| elem.concat("\n") }
+    arr.each { |item| result << ("  ") << item }
+    result
+  end
   
 end
