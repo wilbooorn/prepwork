@@ -151,7 +151,6 @@ class ComputerPlayer
     else
       @candidate_words.each { |word| words << word if not word.include? letter }
     end
-    #p "Candidate Words : #{words}"
     @candidate_words = words
   end
   

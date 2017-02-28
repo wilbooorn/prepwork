@@ -35,7 +35,7 @@ class BattleshipGame
   
 end
 
-player = HumanPlayer.new("Robin")
-board = Board.new([[:s, :s], [nil, nil]])
-game = BattleshipGame.new(player, board)
-game.play_game
+# player = HumanPlayer.new("Robin")
+# board = Board.new([[:s, :s], [nil, nil]])
+# game = BattleshipGame.new(player, board)
+# game.play_game

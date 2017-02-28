@@ -63,9 +63,10 @@ class Game
   end
   
   def get_guess
+    ARGV.clear
     puts "Enter your guess."
     string = gets.chomp
-    Code.new(string.split(''))
+    Code.parse(string)
   end
   
   def display_matches(code)

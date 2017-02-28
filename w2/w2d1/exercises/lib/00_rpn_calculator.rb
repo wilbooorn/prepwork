@@ -45,7 +45,22 @@ class RPNCalculator
       result
   end
   
-  def evaluate 
+  def evaluate(string)
+    tokens = tokens(string)
+    tokens.each do |item|
+      if item.is_a?(Integer)
+        push(item)
+      elsif item == :*
+        times
+      elsif item == :+
+        plus
+      elsif item == :/
+        divide
+      elsif item == :-
+        minus
+      end
+    end
+    value
   end
   
 end
