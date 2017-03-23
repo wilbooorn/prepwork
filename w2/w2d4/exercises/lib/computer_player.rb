@@ -1,16 +1,17 @@
 class ComputerPlayer
   attr_reader :board
   attr_accessor :mark
-  
+  attr_reader :name
+
   def initialize(name, mark = "")
     @name = name
     @mark = mark
   end
-  
+
   def display(board)
     @board = board
   end
-  
+
   def get_move
     result = []
     (0..2).each do |x|
@@ -25,7 +26,7 @@ class ComputerPlayer
         end
       end
     end
-    
+
     (0..2).each do |x|
       (0..2).each do |y|
         if @board[[x,y]].nil?
@@ -35,5 +36,5 @@ class ComputerPlayer
       end
     end
   end
-  
+
 end
